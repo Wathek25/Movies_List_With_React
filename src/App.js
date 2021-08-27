@@ -4,6 +4,7 @@ import Movielist from "./Components/Movielist/Movielist";
 import Footer from "./Components/Footer/Footer";
 import React, { useState, useEffect } from "react";
 import Addfilm from "./Components/Addfilm/Addfilm";
+import Rating from "./Components/Rating/Rating";
 
 function App() {
   const data = [
@@ -95,6 +96,10 @@ function App() {
     setMoviesData([...moviesData, newMovie]);
   };
 
+  const getMovieByRate = (val) => {
+    setMoviesData(val ? data.filter((film) => film.rating === val) : data);
+  };
+
   const getSearchVal = (val) => {
     setMoviesData(
       data.filter((film) => {
@@ -103,10 +108,7 @@ function App() {
             .toString()
             .toLocaleLowerCase()
             .includes(val.toLocaleLowerCase()) ||
-          film.rating
-            .toString()
-            .toLocaleLowerCase()
-            .includes(val.toLocaleLowerCase()) ||
+          film.rating === +val ||
           film.type
             .toString()
             .toLocaleLowerCase()
@@ -133,6 +135,7 @@ function App() {
         addfilms={addfilms}
       />
 
+      <Rating getMovieByRate={getMovieByRate} />
       <Movielist movies={moviesData} />
       <Footer />
     </div>
